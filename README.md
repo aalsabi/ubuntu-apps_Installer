@@ -4,6 +4,10 @@ Gatter Is a script shell allows you to installs the most important programs
 
 HOW TO :
 
+Git your copy :
+
+git clone https://github.com/zakariaGatter/Gatter_script
+
 to start the script you have to give it Permission ( Allow executing file as a program ) bay typing in the terminal
 
 [>_] >> "cd Gatter_script"
@@ -27,8 +31,8 @@ made in morocco (Arabic country)
 by Zakaria (Gatter) BARKOUK
 
 Note :
-		Please don't move nothing from he's place
+	Please don't move nothing from he's place
 
-		If you make changes to this work I hope you can send a copy to my Email or Gmail
+	If you make changes to this work I hope you can send a copy to my Email or Gmail
 
-		      I hope this Script helps In a way or another and don't forget to share it
+	I hope this Script helps In a way or another and don't forget to share it
