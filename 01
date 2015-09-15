@@ -1,0 +1,3342 @@
+#!/bin/bash
+#
+# Authors:
+#---------
+#   Zakaria [Gatter] Barkouk <gatter.zaki@outlook.com>
+#                            <zakaria.gatter@gmail.com>
+#
+# Description:
+#-------------
+#
+#   Gatter Script : Is a Apps-installation bash script for Ubuntu
+#
+# Legal Preamble:
+#----------------
+#   This script is free software; you can redistribute it and/or modify it under
+#   the terms of the GNU General Public License as published by the Free Software
+#   Foundation; version 3.
+#
+# NOTE :
+#-------
+#   Please don't move nothing from he's place
+#   If you make changes to this work I hope you can send a copy to my Email or Gmail
+#
+# <I hope this Script helps In a way or another and don't forget to share it>
+#
+#   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#   # ----------------------------------------------- #
+#   # This script basic on  <helmuthdu_mailto_Script> #
+#   # ----------------------------------------------- #
+#   #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+### With git
+#   --------
+#    - Get list of packages and install git: `sudo apt-get install git`
+#    - get the script: `git clone git://github.com/helmuthdu/aui`
+#
+### Without git
+#   -----------
+#    - get the script: ` wget --no-check-certificate https://github.com/helmuthdu/aui/tarball/master -O - | tar xz`
+#    - an alternate URL (for less typing) is ` wget --no-check-certificate http://bit.ly/NoUPC6 -O - | tar xz`
+#    - super short `wget ow.ly/wnFgh -O aui.zip`
+
+################################
+VERSION="Version : 0.3 (2015)" #
+# ### #### # COLORS # #### ### #
+Bold=$(tput bold)              #
+BRed=${Bold}$(tput setaf 1)    #
+BGreen=${Bold}$(tput setaf 2)  #
+BYellow=${Bold}$(tput setaf 3) #
+BBlue=${Bold}$(tput setaf 4)   #
+BPurple=${Bold}$(tput setaf 5) #
+BWhite=${Bold}$(tput setaf 7)  #
+# ## ### OFF the colors ### ## #
+Reset=$(tput sgr0)             #
+################################
+
+####################################################################################################################
+prompt="${BGreen}=> ${BWhite}Enter n° of options ${BBlue}(ex: 1 2 3 ) ${BPurple}[${BRed}>_${BPurple}]:>${BGreen} " #
+####################################################################################################################
+
+#----------------#
+# Needed_Package #
+#----------------#
+#{{{
+Needed_Package () {
+if [ ! -e /usr/bin/wget ] ; then
+sudo apt-get install -y wget
+fi
+
+if [ ! -e /usr/bin/gdebi ] ; then
+sudo apt-get install -y gdebi
+fi
+}
+#}}}
+
+#---------#
+# Welcome #
+#---------#
+#{{{
+WELCOME () {
+clear
+print_line
+echo -e " \t ${BWhite}# WELCOME ${Reset}"
+print_line
+echo -e "${BYellow}Welcome to the Gatter (Ubuntu) Install script by Zakaria Barkouk ${Reset}"
+print_line
+echo -e "${BPurple}Requirements:\n"
+echo -e "\t${BGreen}-> ${BWhite}Ubuntu installation"
+echo -e "\t${BGreen}-> ${BWhite}Run script as root user"
+echo -e "\t${BGreen}-> ${BWhite}Working INTERNET connection${Reset}"
+print_line
+echo -e "${BPurple}NOTE :\n"
+echo -e "\t I am not responsible for any defect or damage caused to your System ${Reset} "
+print_line
+echo "${BRed}Script can be canceled at any time with CTRL+C${Reset}"
+echo "${Blod}Please maximize this window for best results...${Reset}"
+print_line
+for i in {15..0};do echo -en " ${BWhite}The Script will start in ${BRed}$i ${BWhite}sec ... ${Reset}\r"; sleep 1 ; done
+}
+#}}}
+
+#--------------#
+# CLEAN_FOLDER #
+#--------------#
+# {{{
+CLEAN_FOLDER () {
+mkdir ./YOUR_DEB_FOLDER
+sudo mv ./*.deb ./YOUR_DEB_FOLDER
+sudo chmod 777 ./YOUR_DEB_FOLDER
+}
+#}}}
+
+#--------------#
+# CHECK_distro #
+#--------------#
+# {{{
+
+#-------------#
+# Star_option #
+#-------------#
+#{{{
+Star_option () {
+while true ; do
+    print_title "CHECK Distro"
+    echo " ${BWhite}IS ${BYellow}$Distro ${BWhite}Basic ON Ubuntu ? ${Reset}"
+    read -p "${BGreen}:: ${BRed}[Y/n]  ${BWhite}:[>_]:> ${Reset}" DISTRO
+    case $DISTRO in
+    [Yy]* )
+            echo -e " \t${BGreen}NOW we can Continue${Reset} "
+            sleep 3
+            break
+    ;;
+    [Nn]* )
+            print_title "SORRY but this Script is Valid only for Ubuntu Distro or any Distro basic on it"
+            exit 0
+            break
+    ;;
+    esac
+done
+}
+#}}}
+
+CHECK_distro () {
+Distro=$(cat /etc/issue | head -1)
+
+    case "$Distro" in
+#    Linux Mint
+    [Ll]inux\ [Mm]int\ * )
+    ;;
+#    Linux Lite
+    [Ll]inux\ [Ll]ite\ *  )
+    ;;
+#    All ubuntu : Ubuntu/Kubuntu/Xubuntu ....
+    *buntu\ * )
+    ;;
+#    Elementary
+    [Ee]lementary\ * )
+    ;;
+#    LXLE
+    LXLE\ |lxle\ )
+    ;;
+#    Zorin OS
+    [Zz]orin\ * )
+    ;;
+#    Deepin
+    [Dd]eepin\ * )
+    ;;
+#    Bodhi linux
+    [Bb]odhi\ * )
+    ;;
+#    Makululinux
+    [Mm]aku* )
+    ;;
+#    Black lab linux
+    [Bb]lack\ * )
+    ;;
+#    Netrunner
+    [Nn]etru* )
+    ;;
+#    Peppermint OS
+    [Pp]epper* )
+    ;;
+#    BackBox linux
+    [Bb]ack* )
+    ;;
+#    WallOS
+    [Ww]att* )
+    ;;
+#    Ultimate Edition
+    [Uu]ltimate\ * )
+    ;;
+#    Voyager linux
+    [Vv]oyager\ * )
+    ;;
+#    Chromixium
+    [Cc]hromixium\ * )
+    ;;
+#    Pinguy OS
+    [Pp]inguy\ * )
+    ;;
+#    SymphonyOS
+    [Ss]ymph* )
+    ;;
+#    Emmabuntus
+    [Ee]mmabu* )
+    ;;
+#    ExTiX
+    [Ee]x* )
+    ;;
+#    SuperX
+    [Ss]uper* )
+    ;;
+#    Linux Mangaka
+    [Ll]inux\ [Mm]angaka )
+    ;;
+#    ZevenOS
+    [Zz]even* )
+    ;;
+#    Bella OS
+    [Bb]ella* )
+    ;;
+    * ) Star_option
+    ;;
+    esac
+}
+#}}}
+
+#--------#
+# Update #
+#--------#
+#{{{
+Update () {
+    print_title "UPDATE "
+    sudo apt-get update 
+    clear
+}
+#}}}
+
+#---------#
+# Install #
+#---------#
+#{{{
+Install () {
+    clear
+    print_line
+    echo -e "${BGreen}=>> INSTALL :\n\t\t${BWhite}The ${BYellow} $@ \n\t${BWhite}Package Will be install ${Reset} "
+    print_line
+    sleep 3
+    echo ""
+    sudo apt-get -y install "$@"
+}
+#}}}
+
+#------------#
+# Print_line #
+#------------#
+#{{{
+print_line () {
+    printf "%$(tput cols)s\n"|tr ' ' '-'
+  }
+#}}}
+
+#-------------#
+# print_title #
+#-------------#
+#{{{
+print_C_title () {
+    print_line
+    echo -e " \t ${BRed}# $1 ${Reset}"
+    print_line
+    echo ""
+}
+
+print_title () {
+    clear
+    print_line
+    echo -e " \t ${BRed}# $1 ${Reset}"
+    print_line
+    echo ""
+}
+#}}}
+
+#-----------#
+# print_app #
+#-----------#
+#{{{
+print_app () {
+  echo -e "\t\t${BYellow}$1 ${BPurple}=-> ${BWhite}$2 ${Reset}"
+}
+#}}}
+
+#---------#
+# Add_Rep #
+#---------#
+#{{{
+Add_Rep () {
+    print_title "Add the ${BYellow}$1${Reset} Repository"
+    if sudo add-apt-repository -y "$1" ; then
+        print_line
+        echo -e "\t ${BGreen}=|DONE|> ${Blod}The Repository add Successful ${Reset} "
+        print_line
+        echo ""
+        sleep 3
+    fi
+}
+#}}}
+
+#---------------#
+# RUN as a root #
+#---------------#
+#{{{
+Run_as_root () {
+if [ "$(id -u)" != "0" ]; then
+    clear
+    print_line
+    echo -e "\n${BRed}WARNING :\n\t\t${BYellow}ERROR! You must execute the script as a 'root' user.${Reset}"
+    echo -e "\t\t USE : sudo ./01"
+    print_line
+    exit 0
+fi
+}
+#}}}
+
+#------------------#
+# check_connection #
+#------------------#
+#{{{
+check_connection () {
+    connection_test () {
+        ping -q -w 1 -c 1 `ip r | grep default | awk 'NR==1 {print $3}'` &> /dev/null && return 1 || return 0
+    }
+    if connection_test ;then
+        clear
+        print_line
+        echo -e "\n${BRed}WORNNING :\n\t\t${BPurple}ERROR!!! Connection Internet not Found.${Reset}"
+        print_line
+        exit 0
+    fi
+}
+#}}}
+
+#---------#
+# DESKTOP #
+#---------#
+#{{{
+
+    #----------------#
+    # ESSENTIAL_APPS #
+    #----------------#
+    #{{{
+    ESSENTIAL_APPS_install () {
+    while true ; do
+    print_title "ESSENTIAL APPS"
+
+             print_app " 1 )" "Display Manager"
+             print_app " 2 )" "Dmenu"
+             print_app " 3 )" "Gmrun"
+             print_app " 4 )" "rxvt-unicode"
+             print_app " 5 )" "Squeeze"
+             print_app " 6 )" "Thunar"
+             print_app " 7 )" "Tint2"
+             print_app " 8 )" "Xfburn"
+             print_app " 9 )" "Xcompmgr"
+             print_app "10 )" "Zathura"
+             echo ""
+             print_app "d )" "DONE"
+             echo ""
+
+        read -p "$prompt" Ess_apps
+        for i in $Ess_apps ;do
+        case "$i" in
+            1 ) DISPLAY_MANAGER
+            ;;
+            2 ) Install "dmenu"
+            ;;
+            3 ) Install "gmrun"
+            ;;
+            4 ) Install "rxvt-unicode"
+            ;;
+            5 ) Install "squeeze"
+            ;;
+            6 ) Install "thunar"
+            ;;
+            7 ) Install "tint2"
+            ;;
+            8 ) Install "xfburn"
+            ;;
+            9 ) Install "xcompmgr"
+            ;;
+            10 ) Install "zathura"
+            ;;
+            [Dd]* ) MAIN_MENU
+                     break
+            ;;
+        esac
+        done
+    done
+    }
+    #}}}
+    
+    #-----------------#
+    # DISPLAY_MANAGER #
+    #-----------------#
+    #{{{
+    DISPLAY_MANAGER () {
+    while true ; do
+    print_title "DISPLAY MANAGER"
+        
+            print_app "1 )" "MDM"
+            print_app "2 )" "GDM"
+            print_app "3 )" "LightDM"
+            print_app "4 )" "Slim"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" Dis_manag
+        for i in $Dis_manag ;do
+            case $i in
+                1 ) Add_Rep "ppa:noobslab/mint"
+                    Update
+                    Install "mdm mdm-themes"
+                ;;
+                2 ) Install "gdm-guest-session"
+                ;;
+                3 ) Install "lightdm"
+                ;;
+                4 ) Install "slim"
+                ;;
+                [Bb]* ) ESSENTIAL_APPS
+                        break
+                ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+DESKTOP_install () {
+	while true ; do
+	print_title "DESKTOP ENVIRONMENT | WINDOW MANAGER"
+    
+        print_app " 1 )" "Cinnamon"
+        print_app " 2 )" "Deepin"
+        print_app " 3 )" "Enlightenment"
+	    print_app " 4 )" "GNOME"
+	    print_app " 5 )" "KDE4"
+	    print_app " 6 )" "KDE5"
+    	print_app " 7 )" "LXQT"
+    	print_app " 8 )" "Mate"
+    	print_app " 9 )" "XFCE"
+    	print_app "10 )" "Openbox"
+    	pinnt_app "11 )" "Fluxbox"
+    	print_app "12 )" "i3"
+    	print_app "13 )" "Pek WM"
+    	print_app "14 )" "awsome WM"
+    	echo ""
+    	print_app "b )" "Back"
+    	echo ""
+		
+	read -p "$prompt" DESKTOP_option
+	for i in $DESKTOP_option ;do
+		case "$i" in
+		1 ) Add_Rep "ppa:lestcape/cinnamon"
+		    
+		    Update
+		    
+		    Install "cinnamon"
+		;;
+		2 ) # Add the Deepin Repository to your Ubuntu or Ubuntu Derivatives
+		    print_title "Add the Deepin Repository to your Ubuntu or Ubuntu Derivatives"
+		    sudo sh -c 'echo "deb http://packages.linuxdeepin.com/deepin trusty main non-free universe" >> /etc/apt/sources.list'
+		    sudo sh -c 'echo "deb-src http://packages.linuxdeepin.com/deepin trusty main non-free universe" >> /etc/apt/sources.list'
+		    # Download and import the public key
+		    print_C_title "Download and import the public key"
+		    wget http://packages.linuxdeepin.com/deepin/project/deepin-keyring.gpg
+		    gpg --import deepin-keyring.gpg
+		    sudo gpg --export --armor 209088E7 | sudo apt-key add -
+		    # Update the source repository index
+		    Update
+		    # Install Deepin Desktop Environment
+		    print_C_title "Install Deepin Desktop Environment"
+		    Install "dde-meta-core"
+		;;
+        3 ) Add_Rep "ppa:enlightenment-git/ppa"
+                
+            Update
+            
+            Install "e20" "terminology"
+            
+            ESSENTIAL_APPS_install
+        ;;
+        4 ) GNOME_install
+        ;;
+        5 ) Add_Rep "ppa:kubuntu-ppa/backports"
+	    	
+            Update
+            
+            Install "kde-standard" "kubuntu-desktop"
+            
+            KDE="1"
+        ;;
+        6 ) Add_Rep "ppa:neon/kf5"
+            
+            Update
+            
+            Install "project-neon5-session" "project-neon5-utils" "project-neon5-konsole"
+            
+            KDE="1"
+        ;;
+        7 ) Add_Rep "ppa:lubuntu-dev/lubuntu-daily"
+            
+            Update
+            
+            Install "lxqt-metapackage" "lxqt-panel"
+            
+            ESSENTIAL_APPS_install
+        ;;
+        8 ) Add_Rep "ppa:ubuntu-mate-dev/ppa"
+	        Add_Rep "ppa:ubuntu-mate-dev/trusty-mate"
+	    	    
+	        Update
+	    	    
+	        MATE_Install
+	    ;;
+	    9 ) 
+	        Install "xfce4"
+	    ;;
+	    10 ) Install "openbox" "xorg" "obmenu" "gmrum"
+	         sudo cp /etc/xdg/openbox/* ~/.config/openbox
+	         ESSENTIAL_APPS_install
+        ;;
+        11 ) Install "fluxbox" "xorg" "fluxconf"
+            ESSENTIAL_APPS_install
+        ;;
+        12 ) Install "i3" "xorg"
+            ESSENTIAL_APPS_install
+        ;;
+        13 ) Install "pekwm" "pekwm-themes"
+            ESSENTIAL_APPS_install
+        ;;
+        14 ) Add_Rep "ppa:klaus-vormweg/awesome"
+             Update
+             Install "awesome"
+    	     ESSENTIAL_APPS_install
+	    	;;
+	    	[Bb]* )
+	    	        MAIN_MENU
+	    	        break
+	    	;;
+	    	esac
+	    done
+done
+}
+
+    #---------------#
+    # GNOME_DESKTOP #
+    #---------------#
+    #{{{
+    GNOME_install () {
+    print_title "GNOME DESKTOP"
+    
+    Add_Rep "ppa:gnome3-team/gnome3-staging"
+	Add_Rep "ppa:gnome3-team/gnome3"
+	Update
+    print_line
+    echo -e "${BYellow} Dist-upgrade : \n\t\t${BWhite} Some updates are bigger than others.
+       This command is for the huge ones
+       This will take a moment ... up to your connection speed ${Reset}"
+    print_line
+    if sudo apt-get dist-upgrade ; then
+    print_line
+    printf "\n%s DONE %s \n" "${BGreen}" "${Reset}"
+    fi
+    while true ; do
+    print_title "Gnome Desktop"
+    
+        print_app "1 )" "full Gnome Desktop"
+        print_app "2 )" "Gnome shell only"
+        print_app "3 )" "Gnome extras"
+        echo ""
+        print_app "d )" "DONE"
+        echo ""
+
+    read -p "$prompt" GNOME_option
+    case "$GNOME_option" in
+    1 ) Install "ubutnu-gnome-desktop"
+    ;;
+    2 ) Install "gnome-shell"
+    ;;
+    3 )
+    ;;
+    [Dd]* ) Desktop_installtion
+             break
+    ;;
+    esac
+    done
+    }
+    #}}}
+    
+    #--------------#
+    # MATE_Install #
+    #--------------#
+    #{{{
+    MATE_Install () {
+    while true ; do
+    print_title "MATE INSTALL"
+        
+            print_app "1 )" "Minimal MATE desktop"
+            print_app "2 )" "Complete MATE desktop"
+            print_app "3 )" "Complete MATE desktop (+few extras [Most Users Will Want This] )"
+            echo ""
+            print_app "d )" "DONE"
+            echo ""
+            
+            read -p "$prompt" Mate_option
+            case "$Mate_option" in
+            1 ) Install "mate-desktop-environment-core"
+            ;;
+            2 ) Install "mate-desktop-environment"
+            ;;
+            3 ) Install "mate-desktop-environment-extras"
+            ;;
+            [Dd]* ) Desktop_installtion
+                     break
+            ;;
+            esac
+    done
+    }
+    #}}}
+    
+#}}}
+
+#--------#
+# Themes #
+#--------#
+#{{{
+THEMES_install () {
+while true ; do
+print_title "THEMES"
+    
+        print_app "1 )" "Numix"
+        print_app "2 )" "Zukitwo"
+        echo ""
+        print_app "b )" "Back"
+        echo ""
+    
+        read -p "$prompt" themes_option
+    for i in $themes_option ; do
+        case $i in
+        1 ) Add_Rep "ppa:numix/ppa"
+            
+            Update
+            
+            Install "numix-gtk-theme"
+        ;;
+        2 ) Add_Rep "ppa:noobslab/themes"
+            
+            Update
+            
+            Install "zukitwo"
+        ;;
+        [Bb]* ) MAIN_MENU
+                break
+        ;;
+        esac
+    done
+done
+}
+#}}}
+
+#-------#
+# Icons #
+#-------#
+#{{{
+ICONS_install () {
+while true ;do
+print_title "ICONS"
+    
+        print_app "1 )" "Moka"
+        print_app "2 )" "Nitrux"
+        print_app "3 )" "Numix"
+        echo ""
+        print_app "D )" "DONE"
+        echo ""
+        
+    read -p "$prompt" icons_option
+    for i in $icons_option ; do
+        case $i in
+        1 ) Add_Rep "ppa:moka/stable"
+
+            Update
+
+            Install "moka-icon-theme"
+        ;;
+        2 ) Add_Rep ppa:nitrux-team/nitrux-artwork
+            
+            Update
+            
+            if [ "$KDE" = "1" ] || [ "$KDE_FULL_SESSION" = "true" ];then
+                Install "nitrux-icon-theme-kde"
+            else
+                Install "nitrux-icon-theme"
+            fi
+            
+        ;;
+        3 ) Add_Rep "ppa:numix/ppa"
+            
+            Update
+        
+            Install "numix-icon-theme" "numix-icon-theme-circle"
+        ;;
+        [Dd]* ) THEMES_install
+                break
+        ;;
+        esac
+    done
+done
+}
+#}}}
+
+#-------------#
+# Accessories #
+#-------------#
+#{{{
+
+    #-----------------#
+    # Springseed_Func #
+    #-----------------#
+    #{{{
+    Springseed_Function () {
+        print_title "Springseed"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+        # if you use 64 bit system
+        echo " ${BBlue}64bit Detected${Reset}"
+            print_line
+        echo " ${BWhite}Installing ( Springseed )${Reset} "
+            print_line
+            sleep 2
+        wget http://cdn.michealharker.com/dl/springseed_2.0_amd64.deb
+        sudo gdebi ./*.deb
+        rm -f ./*.deb
+        else
+        # if you use 32 bit system
+        echo " ${BBlue}32bit Detected${Reset}"
+        print_line
+        echo " ${BWhite}Installing ( Springseed ) ${Reset}"
+        print_line
+            sleep 2
+        wget http://cdn.michealharker.com/dl/springseed_2.0_i386.deb
+        sudo gdebi ./*.deb
+        rm -f ./*.deb
+        fi
+        }
+    #}}}
+    
+    #----------------#
+    # Unified_Remote #
+    #----------------#
+    #{{{
+    Unified_Remote_function () {
+    print_title "Unified Remote"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+        # if you use 64 bit system
+        echo " ${BBlue}64bit Detected${Reset}"
+            print_line
+        echo " ${BWhite}Installing ( Unified Remote )${Reset} "
+        print_line
+            sleep 2
+        	wget https://www.unifiedremote.com/download/linux-x64-deb
+        sudo gdebi ./*.deb
+        rm -f ./*.deb
+        else
+        # if you use 32 bit system
+        echo " ${BBlue}32bit Detected${Reset}"
+            print_line
+        echo " ${BWhite}Installing ( Unified Remote ) ${Reset}"
+        print_line
+            sleep 2
+        wget https://www.unifiedremote.com/download/linux-x86-deb
+        sudo gdebi ./*.deb
+        rm -f ./*.deb
+        fi
+    }
+    #}}}
+    
+Accessories_Apps_install () {
+while true ; do
+print_title "ACCESSORIES"
+	
+    print_app " 1 )" "Cairo Dock"
+    print_app " 2 )" "Catfish"
+    print_app " 3 )" "Compiz"
+    print_app " 4 )" "Conky-Manager"
+    print_app " 5 )" "Docky"
+    print_app " 6 )" "Galculator"
+    print_app " 7 )" "Pyrenamer"
+    print_app " 8 )" "Shutter"
+    print_app " 9 )" "Springseed"
+    print_app "10 )" "Synapse"
+    print_app "11 )" "Terminator"
+    print_app "12 )" "Unified Remote"
+    print_app "13 )" "Zim"
+    echo ""
+    print_app " b )" "Back"
+    echo ""
+    read -p "$prompt" Accessories_option
+    for i in $Accessories_option ;do
+    case $i in
+        1 ) Install "cairo-dock"
+            ;;
+            2 ) Install "catfish"
+            ;;
+            3 ) Install "compizconfig-settings-manager" "compiz-plugins"
+            ;;
+            4 ) Add_Rep "ppa:teejee2008/ppa"
+            
+                Update
+                
+                Install "conky-manager"
+            ;;
+            5 ) Install "docky"
+            ;;
+            6 ) Install "galculator"
+            ;;
+            7 ) Install "pyrenamer"
+            ;;
+            8 ) Install "shutter"
+            ;;
+            9 ) Springseed_Function
+            ;;
+            10 ) Add_Rep "ppa:synapse-core/ppa"
+                 
+                 Update
+                 
+                 Install "synapse"
+            ;;
+            11 ) Install "terminator"
+            ;;
+            12 ) Unified_Remote_function
+            ;;
+            13 ) Install "zim"
+            ;;
+            [Bb]* ) MAIN_MENU
+                     break
+            ;;
+		esac
+	done
+done
+}
+# }}}
+
+#-------------#
+# Development #
+#-------------#
+#{{{
+
+    #-----------#
+    # BARACKETS #
+    #-----------#
+    #{{{
+    
+    BARACKETS_Function () {
+    print_title "BARACKETS"
+    if [[ $(getconf LONG_BIT) = "64" ]];then
+		# if you use 64 bit system
+		echo " ${BBlue}64bit Detected${Reset}"
+			print_line
+		echo " ${BWhite}Installing ( BARACKETS )${Reset} "
+		print_line
+			sleep 2
+		wget https://github.com/adobe/brackets/releases/download/release-1.4%2Beb4/Brackets.1.4.Extract.64-bit.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	else
+	    # if you use 32 bit system
+	    echo " ${BBlue}32bit Detected${Reset}"
+		    print_line
+		echo " ${BWhite}Installing ( BARACKETS ) ${Reset}"
+		print_line
+		    sleep 2
+		wget https://github.com/adobe/brackets/releases/download/release-1.4%2Beb4/Brackets.1.4.Extract.32-bit.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	fi
+	}
+    #}}}
+			
+Development_APPS_install () {
+while true ; do
+print_title "DEVELOPEMENT"
+	
+ 		 print_app " 1 )" "Atom"
+		 print_app " 2 )" "Bluefish"
+		 print_app " 3 )" "Brackets"
+		 print_app " 4 )" "Eclipse"
+		 print_app " 5 )" "Emacs"
+		 print_app " 6 )" "Geany"
+		 print_app " 7 )" "Gedit"
+		 print_app " 8 )" "Gvim"
+		 print_app " 9 )" "Kdevelop"
+		 print_app "10 )" "Meld"
+		 print_app "11 )" "Monodevelop"
+		 print_app "12 )" "MySQL Workbench"
+		 print_app "13 )" "Netbeans"
+		 print_app "14 )" "NodeJS"
+		 print_app "15 )" "OpenJDK"
+		 print_app "16 )" "OracleJDK"
+		 print_app "17 )" "QT Creator"
+		 print_app "18 )" "Ruby on Rails"
+		 print_app "19 )" "Sublime Text"
+         echo ""
+		 print_app " b )" "Back"
+		 echo ""
+		
+	read -p "$prompt" Development_option
+	for i in $Development_option ; do
+		case $i in
+            1 ) Add_Rep "ppa:webupd8team/atom"
+                
+                Update
+                
+                Install "atom"
+            ;;
+            2 ) Install "bluefish"
+            ;;
+            3 ) BARACKETS_Function
+            ;;
+            4 ) Install "eclipse"
+            ;;
+            5 ) Install "emacs"
+            ;;
+            6 ) Install "geany"
+            ;;
+            7 ) Install "gedit" "gedit-plugins"
+            ;;
+            8 ) Install "vim-gtk"
+            ;;
+            9 ) Add_Rep "ppa:marian.kadanka/kdevelop"
+            
+                Update
+                 
+                Install "kdevelop"
+            ;;
+            10 ) Install "meld"
+            ;;
+            11 ) Install "monodevelop"
+            ;;
+            12 ) Install "mysql-workbench"
+            ;;
+            13 ) Install "netbeans"
+            ;;
+            14 ) Install "nodejs"
+            ;;
+            15 ) Install "openjdk-7-jdk"
+            ;;
+            16 ) Add_Rep "ppa:webupd8team/java"
+            
+                 Update
+                 
+                 Install "oracle-java8-installer"
+            ;;
+            17 ) Install "qtcreator"
+            ;;
+            18 ) Install "ruby" "rails3" "rails"
+            ;;
+            19 ) Add_Rep "ppa:webupd8team/sublime-text-2"
+                
+                 Update
+                 
+                 Install "sublime-text"
+            ;;
+            [Bb]* )
+                    MAIN_MENU
+                    break
+            ;;
+		esac
+	done
+done
+}
+#}}}
+
+#--------#
+# Office #
+#--------#
+#{{{
+
+    #-------#
+    # Xmind #
+    #-------#
+    #{{{
+    XMIND_Function () {
+    print_title "XMIND"
+    if [[ $(getconf LONG_BIT) = "64" ]];then
+		# if you use 64 bit system
+		echo " ${BBlue}64bit Detected${Reset}"
+			print_line
+		echo " ${BWhite}Installing ( Xmind )${Reset} "
+		print_line
+			sleep 2
+		wget http://www.xmind.net/xmind/downloads/xmind-linux-3.5.3.201506180105_amd64.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	else
+	    # if you use 32 bit system
+	    echo " ${BBlue}32bit Detected${Reset}"
+		    print_line
+		echo " ${BWhite}Installing ( Xmind ) ${Reset}"
+		print_line
+		    sleep 2
+		wget http://www.xmind.net/xmind/downloads/xmind-linux-3.5.3.201506180105_i386.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	fi
+	}
+    #}}}
+    
+    #----------#
+    # Haroopad #
+    #----------#
+    #{{{
+    HAROOPAD_Function () {
+    print_title "HAROOPAD"
+    if [[ $(getconf LONG_BIT) = "64" ]];then
+		# if you use 64 bit system
+		echo " ${BBlue}64bit Detected${Reset}"
+		print_line
+		echo " ${BWhite}Installing ( Haroopad )${Reset} "
+		print_line
+			sleep 2
+		wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.12.2_amd64.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	else
+	    # if you use 32 bit system
+	    echo " ${BBlue}32bit Detected${Reset}"
+		    print_line
+		echo " ${BWhite}Installing ( Haroopad ) ${Reset}"
+		    print_line
+		    sleep 2
+		wget https://bitbucket.org/rhiokim/haroopad-download/downloads/haroopad-v0.12.2-i386.deb
+		sudo gdebi ./*.deb
+		rm -f ./*.deb
+	fi
+    }
+    #}}}
+    
+Office_APPS_install () {
+while true ; do
+print_title "OFFICE"
+    
+         print_app " 1 )" "Abiword + Gnumeric | Calligra"
+         print_app " 2 )" "Calibre"
+         print_app " 3 )" "GCStar"
+         print_app " 4 )" "Homebank"
+         print_app " 5 )" "Impressive"
+         print_app " 6 )" "Latex"
+         print_app " 7 )" "LibreOffice"
+         print_app " 8 )" "MediaElch"
+         print_app " 9 )" "OCRFeeder"
+         print_app "10 )" "Xmind"
+         print_app "11 )" "Haroopad"
+         echo ""
+         print_app " b )" "Back"
+         echo ""
+        
+    read -p "$prompt" Office_option
+    for i in $Office_option ; do
+        case $i in
+            1 ) Abiword_Gnumeric_Calligra
+            ;;
+            2 ) Install "calibre"
+            ;;
+            3 ) Install "gcstar"
+            ;;
+            4 ) Install "homebank"
+            ;;
+            5 ) Install "impressive"
+            ;;
+            6 ) Install "texlive-latex-extra"
+            ;;
+            7 ) Install "libreoffice"
+            ;;
+            8 ) Install "libqt5core5a" "mediaelch"
+            ;;
+            9 ) Install "ocrfeeder"
+            ;;
+            10 ) XMIND_Function
+            ;;
+            11 ) HAROOPAD_Function
+            ;;
+            [Bb]* )
+                    MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+    #-------#
+    # A_G_C #
+    #-------#
+    #{{{
+    
+        Abiword_Gnumeric_Calligra () {
+        while true ; do
+        print_title "Abiword | Gnumeric | Calligra"
+            
+                print_app "1 )" "Abiword + Gnumeric"
+                print_app "2 )" "Abiword + Calligra"
+                echo ""
+                print_app "b )" "Back"
+                echo ""
+                
+            read -p "$prompt" AGC_option
+            for i in $AGC_option ; do
+                case $i in
+                    1 ) Install "abiword" "gnumeric"
+                    ;;
+                    2 ) Install "abiword" "calligra"
+                    ;;
+                    [Bb]* )
+                            Office_APPS_install
+                            break
+                    ;;
+                esac
+            done
+        done
+        }
+    #}}}
+    
+#}}}
+
+#--------------#
+# System TOOLS #
+#--------------#
+#{{{
+	
+	#--------#
+	# Tweaks #
+	#--------#
+	#{{{
+	TWEAKS_Apps () {
+		while true ; do
+		print_title " TWEAK TOOL "
+		
+		print_app "1 )" "Ubuntu tweak tool"
+		print_app "2 )" "Unity tweak tool "
+		print_app "3 )" "Gnome tweak tool "
+		echo ""
+		print_app "b )" "Back "
+		echo ""
+		
+		read -p "$prompt" tweak_option
+		for i in $tweak_option ; do
+		case "$i" in
+		1 ) Add_Rep "ppa:tualatrix/ppa"
+			
+			Update
+			
+			Install "ubuntu-tweak"
+		;;
+		2 ) Install "unity-tweak-tool"
+		;;
+		3 ) Install "gnome-tweak-tool"
+		;;
+		[Bb]* ) System_TOOLS_install
+				break
+		;;
+		esac
+		done
+		done
+	}
+	#}}}
+
+    #---------------#
+    # NVIDIA Driver #
+    #---------------#
+    #{{{
+    NVIDIA_Function () {
+        while true ; do
+        print_title "NVIDIA Driver"
+    
+        echo -e " ${BRed}Worrning : \n\t\t ${BWhite}This Apps is valide only for SYSTEM 64 Bit ${Reset}\n"
+        read -p " YOU want to install it ? [Y/n] : " nvidia_OPT
+        case $nvidia_OPT in
+        [Yy]* )
+        print_title "NVIDIA Driver install"
+        wget us.download.nvidia.com/XFree86/Linux-x86_64/310.40/NVIDIA-Linux-x86_64-310.40.run
+        sudo bash NVIDIA-Linux-x86_64-310.40.run
+    	sudo rm ./*.run
+    	break
+    	;;
+    	[Nn]* )
+    	        break
+    	;;
+    	esac
+    	done
+       }
+    #}}}
+
+
+System_TOOLS_install () {
+while true ; do
+print_title "SYSTEM TOOLS"
+    
+         print_app " 1 )" "ClamAV"
+         print_app " 2 )" "FirewallD"
+         print_app " 3 )" "Gparted"
+         print_app " 4 )" "Grsync"
+         print_app " 5 )" "Apache"
+         print_app " 6 )" "Htop"
+         print_app " 7 )" "Gdebi"
+         print_app " 8 )" "Synaptic"
+         print_app " 9 )" "GUFW"
+         print_app "10 )" "Bleachbit"
+         print_app "11 )" "Virtualbox"
+         print_app "12 )" "Wine"
+         print_app "13 )" "NVIDIA Driver"
+         print_app "14 )" "Tweaks"
+         echo ""
+         print_app " b )" "Back"
+         echo ""
+         
+    read -p "$prompt" Sys_option
+    for i in $Sys_option ;do
+        case $i in
+            1 ) Install "clamav"
+            ;;
+            2 ) Install "firewalld"
+            ;;
+            3 ) Install "gparted"
+            ;;
+            4 ) Install "grsync"
+            ;;
+            5 ) Install "apache2"
+            ;;
+            6 ) Install "htop"
+            ;;
+            7 ) Install "gdebi"
+            ;;
+            8 ) Install "synaptic"
+            ;;
+            9 ) Install "gufw"
+            ;;
+            10 ) Install "bleachbit"
+            ;;
+            11 ) Install "virtualbox" "virtualbox-guest-utils" "virtualbox-guest-dkms" "virtualbox-guest-additions-iso" "virtualbox-dkms" "virtualbox-qt"
+            ;;
+            12 ) Install "wine"
+            ;;
+            13 ) NVIDIA_Function
+            ;;
+            14 ) TWEAKS_Apps
+            ;;
+            [Bb]* )
+                    MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+#}}}
+
+#----------#
+# Graphics #
+#----------#
+#{{{
+
+Graphice_APPS_install () {
+while true ; do
+print_title "GRAPHICS"
+    
+         print_app " 1 )" "Blender"
+         print_app " 2 )" "Gimp"
+         print_app " 3 )" "Gthumb"
+         print_app " 4 )" "Inkscape"
+         print_app " 5 )" "MComix"
+         print_app " 6 )" "Mypaint"
+         print_app " 7 )" "Pencil"
+         print_app " 8 )" "Scribus"
+         print_app " 9 )" "Shotwell"
+         print_app "10 )" "Simple Scan"
+         print_app "11 )" "XnViewMP"
+         echo ""
+         print_app " b )" "Back"
+         echo ""
+        
+    read -p "$prompt" Graphic_option
+    for i in $Graphic_option ; do
+        case $i in
+            1 ) Install "blender"
+            ;;
+            2 ) Install "gimp"
+            ;;
+            3 ) Install "gthumb"
+            ;;
+            4 ) Install "inkscape"
+            ;;
+            5 ) Install "mcomix"
+            ;;
+            6 ) Install "mypaint"
+            ;;
+            7 ) Install "pencil"
+            ;;
+            8 ) Install "scribus"
+            ;;
+            9 ) Install "shotwell"
+            ;;
+            10 ) Install "simple-scan"
+            ;;
+            11 ) Add_Rep "ppa:dhor/myway"
+                 
+                 Update
+                 
+                 Install "xnview"
+            ;;
+            [Bb]* )
+                    MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+#}}}
+
+#----------#
+# Internet #
+#----------#
+#{{{
+    
+    #---------------#
+	# Google_Chrome #
+	#---------------#
+	#{{{
+	
+		Google_Chrome_Function () {
+		    print_title "Google Chrome"
+			if [[ $(getconf LONG_BIT) = "64" ]];then
+				# if you use 64 bit system
+				echo " ${BBlue}64bit Detected${Reset}"
+				    print_line
+				echo " ${BWhite}Installing (Google Chrome)${Reset} "
+				    print_line
+				    sleep 2
+				wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+				sudo gdebi google-chrome-stable_current_amd64.deb
+				rm -f google-chrome-stable_current_amd64.deb
+			else
+				# if you use 32 bit system
+				echo " ${BBlue}32bit Detected${Reset}"
+				    print_line
+				echo " ${BWhite}Installing (Google Chrome) ${Reset}"
+				    print_line
+				    sleep 2
+				wget https://dl.google.com/linux/direct/google-chrome-stable_current_i386.deb
+				sudo gdebi google-chrome-stable_current_i386.deb
+				rm -f google-chrome-stable_current_i386.deb
+			fi
+		}
+	#}}}
+	
+	#-----#
+	# M_R #
+	#-----#
+	#{{{
+	
+	Midori_Rekonq () {
+	while true ;do
+	print_title "Midori | Rekonq"
+        
+            print_app "1 )" "Midori"
+            print_app "2 )" "Rekonq"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" a_r_option
+        for i in $a_r_option ;do
+            case $i in
+                1 ) Install "midori"
+                ;;
+                2 ) Install "rekonq"
+                ;;
+                [Bb]* )
+                        BROWSER_APPS_install
+                        break
+                ;;
+            esac
+        done
+	done
+	}
+	#}}}
+	
+	#---------#
+    # BROWSER #
+    #---------#
+    #{{
+    
+    BROWSER_APPS_install () {
+    while true ;do
+    print_title "BROWSER APPS"
+        
+            print_app "1 )" "Chrome"
+            print_app "2 )" "Chromium"
+            print_app "3 )" "Firefox"
+            print_app "4 )" "Midori | Rekonq"
+            print_app "5 )" "Opera"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" Int_Brow_option
+        for i in $Int_Brow_option ;do
+            case $i in
+            1 ) Google_Chrome_Function
+            ;;
+            2 ) Install "chromium-browser "
+            ;;
+            3 ) Install "firefox"
+            ;;
+            4 ) Midori_Rekonq
+            ;;
+            5 ) Install "opera"
+            ;;
+            [Bb]* )
+                    Internet_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}
+    
+    #-------------#
+    # DOWN_Fshare #
+    #-------------#
+    #{{
+        
+        #-----------#
+        # FLARE_GET #
+        #-----------#
+        #{{
+        FLARE_GET_Function () {
+        print_title "FlareGet"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+				# if you use 64 bit system
+				echo " ${BBlue}64bit Detected${Reset}"
+				    print_line
+				echo " ${BWhite}Installing ( FlareGet )${Reset} "
+				    print_line
+				    sleep 2
+				wget https://www.flareget.com/files/flareget/debs/i386/flareget_3.2-42_amd64.deb
+				sudo gdebi ./*.deb
+				rm -f ./*.deb
+			else
+				# if you use 32 bit system
+				echo " ${BBlue}32bit Detected${Reset}"
+				    print_line
+				echo " ${BWhite}Installing ( FlareGet ) ${Reset}"
+				    print_line
+				    sleep 2
+				wget https://www.flareget.com/files/flareget/debs/i386/flareget_3.2-42_i386.deb
+				sudo gdebi ./*.deb
+				rm -f ./*.deb
+			fi
+        }
+        #}}
+        
+        #---------#
+        # DropBox #
+        #---------#
+        # {{{
+        
+        DROPBOX_Function () {
+        print_title "DROPBOX"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( DropBox )${Reset} "
+    		print_line
+    			sleep 2
+    		wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.02.12_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( DropBox ) ${Reset}"
+    		print_line
+    		    sleep 2
+    		wget https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.02.12_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+    DOWN_Fshare_Function () {
+    while true ;do
+    print_title "DOWNLOAD | FILESHARE"
+        
+             print_app " 1 )" "BitTorrent Sync"
+             print_app " 2 )" "Deluge"
+             print_app " 3 )" "Dropbox"
+             print_app " 4 )" "FlareGet"
+             print_app " 5 )" "Jdownloader"
+             print_app " 6 )" "qBittorrent"
+             print_app " 7 )" "Sparkleshare"
+             print_app " 8 )" "Trasmission"
+             print_app " 9 )" "uGet"
+             print_app "10 )" "youtube-dl"
+             echo ""
+             print_app " b )" "Back"
+             echo ""
+             
+        read -p "$prompt" Int_DF_option
+        for i in $Int_DF_option ; do
+            case $i in
+            1 ) Install "bittorrent"
+            ;;
+            2 ) Install "deluge"
+            ;;
+            3 ) DROPBOX_Function
+            ;;
+            4 ) FLARE_GET_Function
+            ;;
+            5 ) Add_Rep "ppa:jd-team/jdownloader"
+
+                Update
+
+                Install "jdownloader"
+            ;;
+            6 ) Install "qbittorrent"
+            ;;
+            7 ) Install "sparkleshare"
+            ;;
+            8 ) Add_Rep "ppa:transmissionbt/ppa"
+                
+                 Update
+                 
+                 Install "transmission-cli" "transmission-common" "transmission-daemon"
+            ;;
+            9 ) Install "uget"
+            ;;
+            10 ) Install "youtube-dl"
+            ;;
+            [Bb]* )
+                    Internet_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}
+    
+    #-----------#
+    # EMAIL_RSS #
+    #-----------#
+    #{{
+    EMAIL_RSS_Function () {
+     while true ; do
+    print_title "EMAIL | RSS"
+        
+            print_app "1 )" "Liferea"
+            print_app "2 )" "Thunderbird"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" Int_Email_option
+        for i in $Int_Email_option ;do
+            case $i in
+            1 ) Install "liferea"
+            ;;
+            2 ) Install "thunderbird"
+            ;;
+            [Bb]* )
+                    Internet_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}
+    
+    #---------#
+    # INS_IRC #
+    #---------#
+    #{{{
+    
+        #-----#
+        # H_K #
+        #-----#
+        #{{{
+        HexChat_Konversation () {
+        while true ; do
+        print_title "HexChat | Konversation"
+            
+                print_app "1 )" "HexChat"
+                print_app "2 )" "Konversation"
+                echo ""
+                print_app "b )" "Back"
+                echo ""
+                
+            read -p "$prompt" h_k_option
+            for i in $h_k_option ; do
+                case $i in
+                1 ) Install "hexchat"
+                ;;
+                2 ) Install "konversation"
+                ;;
+                [Bb]* )
+                        INS_IRC
+                        break
+                ;;
+                esac
+            done
+        done
+        }
+        #}}}
+        
+    #---------#
+    # INS_IRC #
+    #---------#
+    #{{{
+    
+        #-------#
+        # VIBER #
+        #-------#
+        #{{{
+        VIBER_Function () {
+        while true ; do
+        print_title "VIBER"
+    
+        echo -e " ${BRed}Worrning : \n\t\t ${BWhite}This Apps is valide only for SYSTEM 64 Bit ${Reset}\n\n"
+        read -p " YOU want to install it ? [Y/n] : " Viber_OPT
+        case $Viber_OPT in
+        [Yy]* )
+        print_title "VIBER install"
+        wget download.cdn.viber.com/cdn/desktop/Linux/viber.deb
+        sudo gdebi ./*.deb
+    	rm -f ./*.deb
+    	break
+    	;;
+    	[Nn]* )
+    	        break
+    	;;
+    	esac
+    	done
+        }
+        #}}}
+        
+    INS_IRC_Function () {
+    while true ; do
+    print_title "IM | IRC"
+        
+            print_app "1 )" "HexChat | Konversation"
+            print_app "2 )" "Irssi"
+            print_app "3 )" "Pidgin"
+            print_app "4 )" "Skype"
+            print_app "5 )" "Teamspeak"
+            print_app "6 )" "Viber"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" Int_II
+        for i in $Int_II ;do
+            case $i in
+            1 ) HexChat_Konversation
+            ;;
+            2 ) Install "irssi"
+            ;;
+            3 ) Install "pidgin"
+            ;;
+            4 ) print_title "SKYPE"
+                wget download.skype.com/linux/skype-ubuntu-precise_4.3.0.37-1_i386.deb
+                sudo gdebi ./*.deb
+    	        rm -f ./*.deb
+            ;;
+            5 )
+            ;;
+            6 ) VIBER_Function
+            ;;
+            [Bb]* )
+                    Internet_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #-----------#
+    # Map_Tools #
+    #-----------#
+    #{{{
+    Map_Tools_Function () {
+    while true ; do
+    print_title "MAPPING"
+        
+            print_app "1 )" "Google Earth"
+            print_app "2 )" "Marble"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+    
+        read -p "$prompt" Int_Map_option
+        for i in $Int_Map_option ;do
+            case $i in
+            1 ) Install "google-earth-stable"
+            ;;
+            2 ) Install "marble"
+            ;;
+            [Bb]* ) Internet_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #-------------#
+    # VNC_D_share #
+    #-------------#
+    #{{{
+    VNC_D_share_Function () {
+    while true ; do
+    print_title "VNC | Desktop Share"
+        
+            print_app "1 )" "Remmina"
+            print_app "2 )" "Teamviewer"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" Int_VNC_option
+        for i in $Int_VNC_option ;do
+            case $i in
+            1 ) Install "remmina"
+            ;;
+            2 ) print_title "Installing ( Teamviewer )"
+    		    wget http://download.teamviewer.com/download/teamviewer_i386.deb
+    		    sudo gdebi ./*.deb
+    		    rm -f ./*.deb
+            ;;
+            [Bb]* ) Internet_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+Internet_APPS_install () {
+while true ; do
+print_title "INTERNET Applications"
+    
+        print_app "1 )" "Browser"
+        print_app "2 )" "Download | Fileshare"
+        print_app "3 )" "Email | RSS"
+        print_app "4 )" "Instant Messaging | IRC"
+        print_app "5 )" "Mapping Tools"
+        print_app "6 )" "VNC | Desktop Share"
+        echo ""
+        print_app "b )" "Back"
+        echo ""
+        
+    read -p "$prompt" Int_app
+    for i in $Int_app ;do
+        case $i in
+            1 ) BROWSER_APPS_install
+            ;;
+            2 ) DOWN_Fshare_Function
+            ;;
+            3 ) EMAIL_RSS_Function
+            ;;
+            4 ) INS_IRC_Function
+            ;;
+            5 ) Map_Tools_Function
+            ;;
+            6 ) VNC_D_share_Function
+            ;;
+            [Bb]* ) MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+#}}}
+
+#-------#
+# Audio #
+#-------#
+#{{{
+    
+    #--------------#
+    # Audio_player #
+    #--------------#
+    #{{
+    Audio_player () {
+    while true ; do
+    print_title "AUDIO PLAYERS"
+        
+             print_app " 1 )" "Amarok"
+             print_app " 2 )" "Audacious"
+             print_app " 3 )" "Banshee"
+             print_app " 4 )" "Clementine"
+             print_app " 5 )" "Deadbeef"
+             print_app " 6 )" "Guayadeque"
+             print_app " 7 )" "Musique"
+             print_app " 8 )" "Nuvola"
+             print_app " 9 )" "Pragha"
+             print_app "10 )" "Radiotray"
+             print_app "11 )" "Rhythmbox"
+             print_app "13 )" "Timidity++"
+             print_app "14 )" "Tomahawk"
+             echo ""
+             print_app "b )" "Back"
+             echo ""
+             
+        read -p "$prompt" Aud_play
+        for i in $Aud_play ;do
+            case $i in
+            1 ) Install "amarok"
+            ;;
+            2 ) Install "audacious"
+            ;;
+            3 ) Install "banshee"
+            ;;
+            4 ) Install "clementine"
+            ;;
+            5 ) Add_Rep "ppa:starws-box/deadbeef-player"
+                
+                Update
+                
+                Install "deadbeef"
+            ;;
+            6 ) Install "guayadeque-music-palyer"
+            ;;
+            7 ) Install "musique"
+            ;;
+            8 ) print_title "Add the nuvola Repository to your Ubuntu or Ubuntu Derivatives"
+                echo 'deb https://tiliado.eu/nuvolaplayer/repository/deb/ trusty stable ' >> /etc/apt/source.list.d/nuvola-player.list
+                print_C_title "Download and import the public key"
+                sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40554B8FA5FE6F6A
+                Update
+                Install "nuvolaplayer3"
+            ;;
+            9 ) Add_Rep "ppa:ubuntuhandbook1/pragha"
+            
+                Update
+                
+                Install "pragha"
+            ;;
+            10 ) Install "radio-tray"
+            ;;
+            11 ) Install "rhythmbox"
+            ;;
+            13 ) Install "timidity"
+            ;;
+            14 ) Install "tomahawk"
+            ;;
+            [Bb]* ) Audio_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}
+    
+    #--------------#
+    # Audio_editor #
+    #--------------#
+    #{{
+        
+        #----------#
+        # SoundC_K #
+        #----------#
+        #{{{
+        SoundC_K () {
+        while true ; do
+        print_title "Soundconverter | Soundkonverter"
+            
+                print_app "1 )" "Soundconverter"
+                print_app "2 )" "Soundkonverter"
+                echo ""
+                print_app "b )" "back"
+                echo ""
+                
+            read -p "$prompt" SounDcK
+            for i in $SounDcK ;do
+                case $i in
+                1 ) Install "soundconverter"
+                ;;
+                2 ) Install "soundkonverter"
+                ;;
+                [Bb]* ) Audio_editor
+                        break
+                ;;
+                esac
+            done
+        done
+        }
+        #}}}
+        
+        #-----------#
+        # Ocenaudio #
+        #-----------#
+        #{{{
+        OCENAUDIO () {
+        print_title "OCENAUDIO"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( OCENAUDIO )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://www.ocenaudio.com.br/downloads/ocenaudio32.deb? -O ocenaudio.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( OCENAUDIO ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://www.ocenaudio.com.br/downloads/ocenaudio64.deb? -O ocenaudio.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+    Audio_editor () {
+    while true ;do
+    print_title "AUDIO EDITORS | TOOLS"
+        
+            print_app "1 )" "Audacity"
+            print_app "2 )" "Easytag"
+            print_app "3 )" "Google Music Manager"
+            print_app "4 )" "Ocenaudio"
+            print_app "5 )" "Soundconverter | Soundkonverter"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" Aud_edit
+        for i in $Aud_edit ;do
+            case $i in
+            1 ) Install "audacity"
+            ;;
+            2 ) Install "easytag"
+            ;;
+            3 ) print_title "Add the Deepin Repository to your Ubuntu or Ubuntu Derivatives"
+                sudo sh -c 'echo "deb http://dl.google.com/linux/musicmanager/deb/ stable main" >> /etc/apt/sources.list.d/google-musicmanager.list'
+                
+                print_C_title "Download and import the public key"
+                wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+                
+                Update
+                
+                Install "google-musicmanager-beta"
+            ;;
+            4 ) OCENAUDIO
+            ;;
+            5 ) SoundC_K
+            ;;
+            [Bb]* ) Audio_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}
+    
+Audio_APPS_install () {
+while true ; do
+print_title "AUDIO APPLICATIONS "
+    
+        print_app "1 )" "Players"
+        print_app "2 )" "Editors | Tools"
+        print_app "3 )" "Codecs"
+        echo ""
+        print_app "b )" "Back"
+        echo ""
+        
+    read -p "$prompt" Aud_app
+    for i in $Aud_app ;do
+        case $i in
+            1 ) Audio_player
+            ;;
+            2 ) Audio_editor
+            ;;
+            3 ) Install "*buntu-restricted-extras"
+            ;;
+            [Bb]* ) MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+#}}}
+
+#-------#
+# VIDEO #
+#-------#
+#{{{
+
+    #--------------#
+    # Video_player #
+    #--------------#
+    #{{
+    Video_player () {
+    while true ;do
+    print_title "VIDEO PLAYERS"
+        
+             print_app " 1 )" "Audience"
+             print_app " 2 )" "Gnome Mplayer"
+             print_app " 3 )" "Minitube"
+             print_app " 4 )" "Miro"
+             print_app " 5 )" "MPV"
+             print_app " 6 )" "Parole"
+             print_app " 7 )" "Popcorn Time"
+             print_app " 8 )" "SMplayer"
+             print_app " 9 )" "VLC"
+             print_app "10 )" "Kodi"
+             echo ""
+             print_app " b )" "Back"
+             echo ""
+             
+        read -p "$prompt" Vid_play
+        for i in $Vid_play ; do
+            case $i in
+            1 ) Add_Rep "ppa:audience-members/ppa"
+                Add_Rep "ppa:vala-team"
+                
+                Update
+                
+                Install "audience"
+            ;;
+            2 ) Install "gnome-mplayer"
+            ;;
+            3 ) Install "minitube"
+            ;;
+            4 ) Install "miro"
+            ;;
+            5 ) Install "mpv"
+            ;;
+            6 ) Install "parole"
+            ;;
+            7 ) Add_Rep "ppa:webupd8team/popcorntime"
+                
+                Update
+                
+                Install "popcorn-time"
+            ;;
+            8 ) Install "smplayer" "smplayer-themes" "smtube"
+            ;;
+            9 ) Install "vlc"
+            ;;
+            10 ) Install "python-software-properties" "pkg-config" "software-properties-common"
+                 
+                 Add_Rep "ppa:team-xbmc/ppa"
+                 
+                 Update
+                 
+                 Install "kodi" "kodi-pvr-*" "kodi-audioencoder-*"
+            ;;
+            [Bb]* ) Video_APPS_install
+                    break
+            ;;
+            esac
+    	done
+    done
+    }
+    #}}
+    
+    #------------#
+    # Lightworks #
+    #------------#
+    #{{{
+    LIGHTWORKS () {
+        while true ; do
+        print_title "LIGHTWORKS"
+        
+        echo -e " ${BRed}Worrning : \n\t\t ${BWhite}This Apps is valide only for SYSTEM 64 Bit ${Reset}\n\n"
+        read -p " YOU want to install it ? [Y/n] : " light_OPT
+        case $light_OPT in
+        [Yy]* )
+        print_line
+        wget ftp.us.debian.org/debian/pool/main/t/tiff3/libtiff4_3.9.6-11_amd64.deb
+        wget http://www.lwks.com/dmpub/lwks-12.0-amd64.deb
+        sudo gdebi libtiff4_3.9.6-11_amd64.deb
+        sudo gdebi lwks-12.0-amd64.deb
+    	rm -f ./*.deb
+    	break
+    	;;
+    	[Nn]* ) continue
+    	        break
+    	;;
+    	esac
+    	done
+    }
+    #}}}
+    
+    #----------#
+    # FileBoot #
+    #----------#
+    #{{{
+    FILEBOOT () {
+    print_title "FILEBOOT"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( FILEBOOT )${Reset} "
+    		    print_line
+    			sleep 2
+    		sudo apt-get purge openjdk*
+    		Add_Rep ppa:webupd8team/java
+    		Update
+    		Install oracle-java8-installer
+    		wget sourceforge.net/projects/filebot/files/filebot/FileBot_4.5.6/filebot_4.5.6_amd64.deb
+    		sudo gdebi ./*.deb
+    		sudo chown -R "$USER:$USER" ~/.filebot/
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( FILEBOOT ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		sudo apt-get purge openjdk*
+    		Add_Rep ppa:webupd8team/java
+    		Update
+    		Install oracle-java8-installer
+    		wget sourceforge.net/projects/filebot/files/filebot/FileBot_4.5.6/filebot_4.5.6_i386.deb
+    		sudo gdebi ./*.deb
+    		sudo chown -R "$USER:$USER" ~/.filebot/
+    		rm -f ./*.deb
+    	fi
+    }
+    #}}}
+    
+    #--------------#
+    # Video_editor #
+    #--------------#
+    #{{
+    Video_editor () {
+    while true ;do
+    print_title "VIDEO EDITORS | TOOLS"
+        
+             print_app " 1 )" "Arista"
+             print_app " 2 )" "Avidemux"
+             print_app " 3 )" "Handbrake"
+             print_app " 4 )" "Kazam"
+             print_app " 5 )" "Kdenlive"
+             print_app " 6 )" "Openshot"
+             print_app " 7 )" "Pitivi"
+             print_app " 8 )" "Transmageddon"
+             print_app " 9 )" "Lightworks"
+             print_app "10 )" "FileBoot"
+             echo ""
+             print_app " b )" "Back"
+             echo ""
+             
+        read -p "$prompt"Vid_edit
+        for i in $Vid_edit ; do
+            case $i in
+            1 ) Install "arista"
+            ;;
+            2 ) Install "avidemux"
+            ;;
+            3 ) Install "handbrake"
+            ;;
+            4 ) Install "kazam"
+            ;;
+            5 ) Install "kdenlive"
+            ;;
+            6 ) Install "openshot"
+            ;;
+            7 ) Install "pitivi"
+            ;;
+            8 ) Install "transmageddon"
+            ;;
+            9 ) LIGHTWORKS
+            ;;
+            10 ) FILEBOOT
+            ;;
+            [Bb]* ) Video_APPS_install
+                    break
+            ;;
+            esac
+    	done
+    done
+    }
+    #}}
+    
+Video_APPS_install () {
+while true ; do
+print_title "VIDEO APPLICATIONS"
+    
+        print_app "1 )" "Players"
+        print_app "2 )" "Editors|Tools"
+        print_app "3 )" "Codecs"
+        echo ""
+        print_app "b )" "Back"
+        echo ""
+        
+    read -p "$prompt" Vid_app
+    for i in $Vid_app ;do
+     case $i in
+        1 ) Video_player
+        ;;
+        2 ) Video_editor
+        ;;
+        3 ) Install "*buntu-restricted-extras"
+        ;;
+        [Bb]* ) MAIN_MENU
+                break
+        ;;
+     esac
+    done
+done
+  
+}
+#}}}
+
+#-------#
+# Games #
+#-------#
+#{{{
+    
+    #-------------#
+    # ACTION_Game #
+    #-------------#
+    #{{{
+        
+        #------------#
+        # OpenTyrian #
+        #------------#
+        #{{{
+        OPENTYRIAN () {
+        print_title "OPENTYRIAN"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( DropBox )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://ppa.launchpad.net/mqchael/pipelight-daily/ubuntu/pool/main/o/opentyrian/opentyrian_2.1.20130907-1~test-201312010014~ubuntu14.04.1_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( DropBox ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://ppa.launchpad.net/mqchael/pipelight-daily/ubuntu/pool/main/o/opentyrian/opentyrian_2.1.20130907-1~test-201312010014~ubuntu14.04.1_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+        #-------------------#
+        # Counter-Strike 2D #
+        #-------------------#
+        #{{{
+        COUNTER_Strike () {
+        print_title "Counter-Strike 2D"
+        Install "libsdl1.2debian libsdl-image1.2 zlib1g libogg0 libvorbis0a libopenal1 libcurl3"
+        print_C_title "Download the archive and extract"
+        wget wget http://netcologne.dl.sourceforge.net/project/actiongame/AssaultCube%20Version%201.2.0.2/AssaultCube_v1.2.0.2.tar.bz2
+        tar -xjvf AssaultCube_v1.2.0.2.tar.bz2
+        cd AssaultCube_v1.2.0.2
+        ./assaultcube.sh
+        }
+        #}}}
+        
+    ACTION_Game () {
+    while true ; do
+    print_title "Action Games Applications"
+        
+            print_app "1 )" "Astromenace"
+            print_app "2 )" "Counter-Strike 2D"
+            print_app "3 )" "Minecraft"
+            print_app "4 )" "OpenTyrian"
+            print_app "5 )" "Sonic Robot Bast 2"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" G_action
+        for i in $G_action ;do
+            case $i in
+            1 ) Install "astromenace"
+            ;;
+            2 ) COUNTER_Strike
+            ;;
+            3 ) Add_Rep "ppa:minecraft-installer-peeps/minecraft-installer"
+            
+                 Update
+                 
+                 Install "minecraft-installer"
+            ;;
+            4 ) OPENTYRIAN
+            ;;
+            5 ) Install "sonic"
+            ;;
+            [Bb]* )
+            		Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #-------------#
+    # ARCADE_Game #
+    #-------------#
+    #{{{
+    
+        #-------#
+        # Abuse #
+        #-------#
+        #{{{
+        ABUSE () {
+        while true ; do
+        print_title "ABUSE"
+        echo -e " ${BRed}Worrning : \n\t\t ${BWhite}This Apps is valide only for SYSTEM 64 Bit ${Reset}\n\n"
+        read -p " YOU want to install it ? [Y/n] : " Abuse_OPT
+        case $Abuse_OPT in
+        [Yy]* )
+        print_line
+        wget https://downloads-packages.s3.amazonaws.com/ubuntu-14.04/gitlab_7.3.2-omnibus-1_amd64.deb
+        sudo gdebi ./*.deb
+    	rm -f ./*.deb
+    	break
+    	;;
+    	[Nn]* ) continue
+    	        break
+    	;;
+    	esac
+    	done
+        }
+        #}}}
+        
+        #-----------#
+        # Neverball #
+        #-----------#
+        #{{{
+        NEVERBALL () {
+        print_title "NEVERBALL"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( Neverball )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://mirrors.kernel.org/ubuntu/pool/universe/n/neverball/neverball_1.5.4-6_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( Neverball ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://mirrors.kernel.org/ubuntu/pool/universe/n/neverball/neverball_1.5.4-6_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+        #-----------#
+        # Opensonic #
+        #-----------#
+        #{{{
+        OPENSONIC () {
+        print_title "OPENSONIC"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( Opensonic )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/o/opensonic/opensonic_0.1.4-1~getdeb4~saucy_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( Opensonic ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/o/opensonic/opensonic_0.1.4-1~getdeb4~saucy_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+        #---------#
+        # Goonies #
+        #---------#
+        #{{{
+        GOONIES () {
+        print_title "Add the Deepin Repository to your Ubuntu or Ubuntu Derivatives"
+        sudo sh -c 'echo "deb http://archive.getdeb.net/ubuntu trusty-getdeb games" >> /etc/apt/sources.list'
+        print_C_title "Download and import the public key"
+        wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
+        Update
+        Install "goonies"
+        }
+        #}}}
+        
+    ARCADE_Game () {
+    while true ; do
+    print_title "Arcade Games Applications"
+        
+             print_app " 1 )" "Abuse"
+             print_app " 2 )" "Battle Tanks"
+             print_app " 3 )" "Bomberclone"
+             print_app " 4 )" "Those Funny Funguloids"
+             print_app " 5 )" "Secret Maryo Chronicles"
+             print_app " 6 )" "Goonies"
+             print_app " 7 )" "Neverball"
+             print_app " 8 )" "Opensonic"
+             print_app " 9 )" "Super Tux 2"
+             print_app "10 )" "Super Mario Chronicles"
+             print_app "11 )" "X-Moto"
+             echo ""
+             print_app " b )" "Back"
+             echo ""
+             
+        read -p "$prompt" G_arcade
+        for i in $G_arcade ;do
+            case $i in
+            1 ) ABUSE
+            ;;
+            2 ) Install "btanks"
+            ;;
+            3 ) Install "bomberclone"
+            ;;
+            4 ) Install "funguloids"
+            ;;
+            5 ) Install "smc"
+            ;;
+            6 ) GOONIES
+            ;;
+            7 ) NEVERBALL
+            ;;
+            8 ) OPENSONIC
+            ;;
+            9 ) Install "supertux"
+            ;;
+            10 ) Install "smr"
+            ;;
+            11 ) Install "xmoto"
+            ;;
+            [Bb]* ) Games_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #--------------#
+    # DUNGEON_Game #
+    #--------------#
+    #{{{
+        
+        #------------------#
+        # Tales of MajEyal #
+        #------------------#
+        #{{{
+        TALES_OF_MAJEYAL () {
+        print_title "Tales of MajEyal"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( Tales of MajEyal )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/t/tales-of-majeyal/tales-of-majeyal_1.3.1-1~getdeb1_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( Tales of MajEyal ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/t/tales-of-majeyal/tales-of-majeyal_1.3.1-1~getdeb1_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+        #----------------#
+        # S.C.O.U.R.G.E. #
+        #----------------#
+        #{{{
+        S_C_O_U_R_G_E () {
+        print_title "Install the repository GPG key"
+        wget -q -O- http://archive.getdeb.net/getdeb-archive.key | sudo apt-key add -
+        print_C_title "Add the following line to /etc/apt/sources.list"
+        sudo sh -c 'echo "deb http://archive.getdeb.net/ubuntu/ trusty-getdeb games" >> /etc/apt/sources.list'
+        Update
+        Install "scourge"
+        }
+        #}}}
+        
+        #-------------#
+        # Stone-Soupe #
+        #-------------#
+        #{{{
+        STONE_SOUPE () {
+        print_title "Stone-Soupe"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( Stone-Soupe )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/s/stone-soup/stone-soup_0.15.2-1~getdeb2_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( Stone-Soupe ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/s/stone-soup/stone-soup_0.15.2-1~getdeb2_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+    DUNGEON_Game () {
+    while true ; do
+    print_title "Dungeon Games Applications"
+        
+            print_app "1 )" "DJL"
+            print_app "2 )" "Tales of MajEyal"
+            print_app "3 )" "S.C.O.U.R.G.E."
+            print_app "4 )" "Stone-Soupe"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" G_dungeon
+        for i in $G_dungeon ; do
+            case $i in
+            1 ) print_title "DJL : Games Manager "
+                wget http://archive.getdeb.net/ubuntu/pool/games/d/djl/djl_1.2.20-1~getdeb3~trusty_all.deb
+                sudo gdebi ./*.deb
+    		    rm -f ./*.deb
+            ;;
+            2 ) TALES_OF_MAJEYAL
+            ;;
+            3 ) S_C_O_U_R_G_E
+            ;;
+            4 ) STONE_SOUPE
+            ;;
+            [Bb]* ) Games_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #----------------#
+    # EMULATORS_Game #
+    #----------------#
+    #{{{
+    
+    #--------#
+    # Snes9x #
+    #--------#
+    #{{{
+    SNES9X () {
+    print_title "World of Padman"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( World of Padman )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget "https://launchpad.net/~bearoso/+archive/ubuntu/ppa/+files/snes9x-gtk_1.53.903.81%7Etrusty1_amd64.deb" -O snes9x-gtk_1.53.903.81_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( World of Padman ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget "https://launchpad.net/~bearoso/+archive/ubuntu/ppa/+files/snes9x-gtk_1.53.903.81%7Etrusty1_i386.deb" -O snes9x-gtk_1.53.903.81_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+    }
+    #}}}
+    
+    EMULATORS_Game () {
+    while true ; do
+    print_title "Emulators Games Applications"
+        
+            print_app "1 )" "Desmume"
+            print_app "2 )" "Snes9x"
+            print_app "3 )" "VisualBoyAdvanced"
+            print_app "4 )" "ZSNES"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" G_emulators
+        for i in $G_emulators ;do
+            case $i in
+            1 ) Install "desmume"
+            ;;
+            2 ) SNES9X
+            ;;
+            3 ) Add_Rep "ppa:hunter-kaller/ppa"
+            
+                Update
+                
+                Install "vbam"
+            ;;
+            4 ) Install "zsnes:i386"
+            ;;
+            [Bb]* ) Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+
+    #----------#
+    # FPS_Game #
+    #----------#
+    #{{{
+        
+        #-----------------#
+        # World of Padman #
+        #-----------------#
+        #{{{
+        WORLD_OF_PADMAN () {
+        print_title "World of Padman"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( World of Padman )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/w/worldofpadman/worldofpadman_1.6-1~getdeb1_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( World of Padman ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/w/worldofpadman/worldofpadman_1.6-1~getdeb1_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}}
+        
+    FPS_Game () {
+    while true ; do
+    print_title "FPS Games Applications"
+        
+            print_app "1 )" "AlienArena"
+            print_app "2 )" "OpenArena"
+            print_app "3 )" "Wolfenstein: Enemy Territory"
+            print_app "4 )" "World of Padman"
+            print_app "5 )" "Nexuiz"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" G_fps
+        for i in $G_fps ; do
+            case $i in
+            1 ) Install "alienarena"
+            ;;
+            2 ) Install "openarena"
+            ;;
+            3 ) Install "wolf4sdl"
+            ;;
+            4 ) WORLD_OF_PADMAN
+            ;;
+            5 ) Install "nexuiz"
+            ;;
+            [Bb]* )
+            		Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #----------#
+    # MMO_Game #
+    #----------#
+    #{{{
+    MMO_Game () {
+    while true ; do
+    print_title "MMO Games Applications"
+        
+            print_app "1 )" "Heroes of Newerth"
+            print_app "2 )" "ManaPlus"
+            print_app "3 )" "Runescape"
+            echo ""
+            print_app "b )" "Bac"
+            echo ""
+        
+        read -p "$prompt" G_mmo
+        for i in $G_mmo ; do
+            case $i in
+            1 ) print_title "Heroes of Newerth"
+                echo "${BGreen}=>> ${BWhite}Download HoNClient-3.4.3.sh ${Reset}"
+                sudo wget -c http://dl.heroesofnewerth.com/HoNClient-3.4.3.sh
+                echo "${BGreen}=>> ${BWhite}Give premission to HoNClient-3.4.3.sh${Reset}"
+                sudo chmod +x HoNClient-3.4.3.sh
+                echo "${BGreen}=>> ${BWhite}Start shell script 'HoNClient-3.4.3.sh'${Reset}"
+                ./HoNClient-3.4.3.sh
+            ;;
+            2 ) Install "manaplus"
+            ;;
+            3 ) Add_Rep "ppa:hikariknight/unix-runescape-client"
+            
+                Update
+                
+                Install "unix-runescape-client"
+            ;;
+            [Bb]* ) Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+
+    #-------------#
+    # PUZZLE_Game #
+    #-------------#
+    #{{{
+    PUZZLE_Game () {
+    while true ; do
+    print_title "Puzzle Games Applications"
+        
+            print_app "1 )" "Frozen Bubble"
+            print_app "2 )" "Tangrams"
+            print_app "3 )" "Numptyphysics"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" G_puzzle
+        for i in $G_puzzle ; do
+            case $i in
+            1 ) Install "frozen-bubble"
+            ;;
+            2 ) Install "gtans"
+            ;;
+            3 ) Install "numptyphysics"
+            ;;
+            [Bb]* )
+            		Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #----------#
+    # RPG_Game #
+    #----------#
+    #{{{
+    RPG_Game () {
+    while true ; do
+    print_title "RPG Games Applications"
+        
+            print_app "1 )" "Ardentryst"
+            print_app "2 )" "Flare"
+            print_app "3 )" "Freedroid RPG"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" G_rpg
+        for i in $G_rpg ; do
+            case $i in
+            1 ) Install "ardentryst"
+            ;;
+            2 ) Install "flare"
+            ;;
+            3 ) Install "freedroidrpg"
+            ;;
+            [Bb]* ) Games_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #-------------#
+    # RACING_Game #
+    #-------------#
+    #{{{
+    RACING_Game () {
+    while true ; do
+    print_title "Racing Games Applications"
+        
+            print_app "1 )" "Extreme Tux Racer"
+            print_app "2 )" "TORCS"
+            print_app "3 )" "SupertuxKart"
+            print_app "4 )" "Speed Dreams"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" G_racing
+        for i in $G_racing ; do
+            case $i in
+            1 ) Install "extremetuxracer"
+            ;;
+            2 ) Install "torcs"
+            ;;
+            3 ) Install "supertuxkart"
+            ;;
+            4 ) Add_Rep "ppa:speed-dreams/ppa"
+                
+                 Update
+                
+                 Install "speed-dreams"
+            ;;
+            [Bb]* ) Games_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #-----------------#
+    # SIMULATION_Game #
+    #-----------------#
+    #{{{
+        
+        #----------------#
+        # Theme Hospital #
+        #----------------#
+        #{{
+        THEMES_HOSPITAL () {
+        print_title "Theme Hospital"
+        if [[ $(getconf LONG_BIT) = "64" ]];then
+    		# if you use 64 bit system
+    		echo " ${BBlue}64bit Detected${Reset}"
+    			print_line
+    		echo " ${BWhite}Installing ( Theme Hospital )${Reset} "
+    		    print_line
+    			sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/c/corsix-th/corsix-th_0.40-1~getdeb2_amd64.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	else
+    	    # if you use 32 bit system
+    	    echo " ${BBlue}32bit Detected${Reset}"
+    		    print_line
+    		echo " ${BWhite}Installing ( Theme Hospital ) ${Reset}"
+    		    print_line
+    		    sleep 2
+    		wget http://archive.getdeb.net/ubuntu/pool/games/c/corsix-th/corsix-th_0.40-1~getdeb2_i386.deb
+    		sudo gdebi ./*.deb
+    		rm -f ./*.deb
+    	fi
+        }
+        #}}
+        
+    SIMULATION_Game () {
+    while true ; do
+    print_title "Simulation Games Applications"
+        
+            print_app "1 )" "Simultrans"
+            print_app "2 )" "Theme Hospital"
+            print_app "3 )" "OpenTTD"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+            
+        read -p "$prompt" G_simulation
+        for i in $G_simulation ;do
+            case $i in
+            1 ) print_title "Simultrans"
+                wget http://mirrors.kernel.org/ubuntu/pool/universe/s/simutrans-pak64/simutrans-pak64_111.3-1_all.deb
+                sudo gdebi ./*.deb
+                rm -f ./*.deb
+            ;;
+            2 ) THEMES_HOSPITAL
+            ;;
+            3 ) Install "openttd"
+            ;;
+            [Bb]* )
+            		Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+
+    #---------------#
+    # STRATEGY_Game #
+    #---------------#
+    #{{{
+    STRATEGY_Game () {
+    while true ; do
+    print_title "Strategy Games Applications"
+        
+            print_app "1 )" "0ad"
+            print_app "2 )" "Hedgewars"
+            print_app "3 )" "MegaGlest"
+            print_app "4 )" "Warzone 2100"
+            print_app "5 )" "Wesnoth"
+            echo ""
+            print_app "b )" "Back"
+            echo ""
+        
+        read -p "$prompt" G_strategy
+        for i in $G_strategy ; do
+            case $i in
+            1 ) Install "Oad"
+            ;;
+            2 ) Install "hedgewars"
+            ;;
+            3 ) Install "megaglest"
+            ;;
+            4 ) Install "warzone2100"
+            ;;
+            5 ) Install "wesnoth"
+            ;;
+            [Bb]* )
+            		Games_APPS_install
+                    break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+    
+    #---------------#
+    # TERMINAL_Game #
+    #---------------#
+    #{{{
+        
+        #--------------#
+        # Asciiquarium #
+        #--------------#
+        #{{{
+        ASCIIQUARIUM_Function () {
+        print_title "ASCIIQUARIUM"
+        cd /tmp
+        wget http://www.robobunny.com/projects/asciiquarium/asciiquarium.tar.gz
+        tar -zxvf asciiquarium.tar.gz
+        cd asciiquarium_1.0/
+        sudo cp asciiquarium /usr/local/bin
+        sudo chmod 0755 /usr/local/bin/asciiquarium
+        }
+        #}}}
+        
+    TERMINAL_Game () {
+    while true ; do
+    print_title "Terminal Games Applications"
+        
+             print_app " 1 )" "Asciiquarium"
+             print_app " 2 )" "Bastet"
+             print_app " 3 )" "Cmatrix"
+             print_app " 4 )" "Cowsay"
+             print_app " 5 )" "Fortune"
+             print_app " 6 )" "Funny-manpages"
+             print_app " 7 )" "Greed"
+             print_app " 8 )" "Moon-buggy"
+             print_app " 9 )" "Nethack"
+             print_app "10 )" "Ninvaders"
+             print_app "11 )" "Ponysay"
+             print_app "12 )" "Robotfindskitten"
+             print_app "13 )" "Toilet"
+             echo ""
+             print_app " b )" "Back"
+             echo ""
+        
+        read -p "$prompt" G_terminal
+        for i in $G_terminal ; do
+            case "$i" in
+            1 ) ASCIIQUARIUM_Function
+            ;;
+            2 ) Install "bastet"
+            ;;
+            3 ) Install "cmatrix"
+            ;;
+            4 ) Install "cowsay"
+            ;;
+            5 ) Install "fortune"
+            ;;
+            6 ) Install "funny-manpages"
+            ;;
+            7 ) Install "greed"
+            ;;
+            8 ) Install "moon-buggy"
+            ;;
+            9 ) Install "nethack-x11"
+            ;;
+            10 ) Install "ninvaders"
+            ;;
+            11 ) Add_Rep "ppa:vincent-c/ponysay"
+                
+                  Update
+                
+                  Install "ponysay"
+            ;;
+            12 ) Install "robotfindskitten"
+            ;;
+            13 ) Install "toilet"
+            ;;
+            [Bb]* ) Games_APPS_install
+                     break
+            ;;
+            esac
+        done
+    done
+    }
+    #}}}
+
+Games_APPS_install () {
+while true ;do
+print_title "Games Applications"
+    
+         print_app " 1 )" "Action|Adventure"
+         print_app " 2 )" "Arcade|Platformer"
+         print_app " 3 )" "Dungeon"
+         print_app " 4 )" "Emulators"
+         print_app " 5 )" "FPS"
+         print_app " 6 )" "MMO"
+         print_app " 7 )" "Puzzle"
+         print_app " 8 )" "RPG"
+         print_app " 9 )" "Racing"
+         print_app "10 )" "Simulation"
+         print_app "11 )" "Strategy"
+         print_app "12 )" "Terminal"
+         print_app "13 )" "PlayOnLinux"
+         print_app "14 )" "Steam"
+         echo ""
+         print_app " b )" "Back"
+         echo ""
+         
+    read -p "$prompt" Games_apps
+    for i in $Games_apps ; do
+        case $i in
+            1 ) ACTION_Game
+            ;;
+            2 ) ARCADE_Game
+            ;;
+            3 ) DUNGEON_Game
+            ;;
+            4 ) EMULATORS_Game
+            ;;
+            5 ) FPS_Game
+            ;;
+            6 ) MMO_Game
+            ;;
+            7 ) PUZZLE_Game
+            ;;
+            8 ) RPG_Game
+            ;;
+            9 ) RACING_Game
+            ;;
+            10 ) SIMULATION_Game
+            ;;
+            11 ) STRATEGY_Game
+            ;;
+            12 ) TERMINAL_Game
+            ;;
+            13 ) Install "playonlinux"
+            ;;
+            14 ) Install "steam"
+            ;;
+            [Bb]* )
+            		MAIN_MENU
+                    break
+            ;;
+        esac
+    done
+done
+  
+}
+#}}}
+
+#-----------#
+# DONE_EXIT #
+#-----------#
+#{{{
+DONE_EXIT () {
+print_title "EXIT | DONE"
+    echo -e "
+        ${BRed}Authors:
+            ${BWhite}Zakaria [Gatter] Barkouk <${BBlue}gatter.zaki@outlook.com${BWhite}>
+                                     <${BBlue}zakaria.gatter@gmail.com${BWhite}>
+
+        ${BRed}Description:
+            ${BWhite}Gatter Script : Is a Apps-installation bash script for Ubuntu
+
+        ${BRed}Legal Preamble:
+
+            ${BWhite}This script is free software; you can redistribute it and/or modify it under
+            the terms of the GNU General Public License as published by the Free Software
+            Foundation; version 3.
+
+            <${BBlue}I hope this Script helps In a way or another and don't forget to share it${BWhite}> ${Reset}
+    "
+print_line
+for i in {30..0};do echo -en "${BWhite} System Will REBOOT in ${BRed}$i ${BWhite}sec ... \r ${Reset}"; sleep 1 ; done
+echo ""
+sudo reboot
+}
+#}}}
+
+#----------#
+# Clean_up #
+#----------#
+#{{{
+Clean_up () {
+print_title "Cleaning up the System"
+sudo apt-get -f install
+sudo apt-get autoremove
+sudo apt-get -y autoclean
+sudo apt-get -y clean
+sudo rm /var/cache/apt/archives/ &> /dev/null
+}
+#}}}
+
+#-----------#
+# MAIN_MENU #
+#-----------#
+#{{{
+MAIN_MENU () {
+while true ; do
+print_title "Menu Option"
+
+		 print_app "    1 )" "Desktop Environment"
+		 print_app "    2 )" "Icons | Themes"
+		 print_app "    3 )" "Accessories Apps"
+		 print_app "    4 )" "Development Apps"
+		 print_app "    5 )" "Office Apps"
+		 print_app "    6 )" "System Apps"
+		 print_app "    7 )" "Graphics Apps"
+		 print_app "    8 )" "Internet Apps"
+		 print_app "    9 )" "Audio Apps"
+		 print_app "   10 )" "Video Apps"
+		 print_app "   11 )" "Games"
+         echo ""
+		 print_app "    c )" "Clean Old Packages"
+	     echo ""
+		 print_app "[D/e] )" "DONE/EXIT"
+		 echo ""
+
+	read -p "$prompt" OPTION
+	for i in $OPTION ; do
+	case $i in
+	1 ) DESKTOP_install
+	;;
+	2 ) ICONS_install
+	;;
+	3 ) Accessories_Apps_install
+	;;
+	4 ) Development_APPS_install
+	;;
+	5 ) Office_APPS_install
+	;;
+	6 ) System_TOOLS_install
+	;;
+	7 ) Graphice_APPS_install
+	;;
+	8 ) Internet_APPS_install
+	;;
+	9 ) Audio_APPS_install
+	;;
+	10 ) Video_APPS_install
+	;;
+	11 ) Games_APPS_install
+	;;
+	[Cc]* ) Clean_up
+	;;
+	[Dd]*|[Ee]* ) DONE_EXIT
+	                break
+	;;
+	esac
+	done
+done
+}
+# }}}
+
+#-------#
+# Usage #
+#-------#
+#{{{
+usage ()
+{
+	printf "About:\n"
+  	printf "%6s Gatter 0.3 : Is allows you to installs the most important program to your UBUNTU System\n\n"
+  	printf "For further information.\n"
+  	printf "%6s Contact me on : \n"
+  	printf "%6s Gmail : zakaria.gatter@gmail.com \n"
+  	printf "%6s Email : gatter.zaki@outlook.com \n\n"
+  	printf "Usage:\n"
+  	printf "%6s Run this script without any arguments.\n\n"
+  	printf "Available arguments:\n"
+  	printf "  -h  or --help %8s List available arguments and usage (this message).\n"
+  	printf "  -v  or --version %5s Print version of Gatter in use.\n"
+  	printf "  -b  or --banana %6s What this argument can do ? \n\n"
+}
+# }}}
+
+#--------#
+# Banana #
+#--------#
+#{{{
+banana ()
+{
+	printf "//\\ \nV%2s\\ \n \\%2s\\ \n%2s\\ \033[1;33m.\`-.\n%3s|\\ \`. \`.\n%3s( \\%2s\`. \`-.%24s_,.-:\\ \n%4s\\ \\%3s\`.%2s\`-._%13s__..--' ,-';/\n%5s\\ \`.%3s\`-.%3s\`-..___..---'%3s_.--' ,'/\n%6s\`. \`.%4s\`-._%8s__..--'%4s,' /\n%8s\`. \`-_%4s \`\`--..''%6s _.-' ,'\n%10s\`-_ \`-.___%8s__,--'%3s,'\n%13s\`-.__%2s\`----'''%4s__.-'\n%18s\`--..____..--'\033[0m\n\n"
+}
+#}}}
+
+if [ $# != 0 ]; then
+  case "$1" in
+    -h | --help)
+      usage
+      exit 0
+      ;;
+    -v | --version)
+      echo "$VERSION"
+      exit 0
+      ;;
+    -b | --banana)
+      banana
+      exit 0
+      ;;
+    *)
+      printf "Error, unknown option: \" %s \"\nRun ' %s --help/-h ' for details.\n" "$1" "$0"
+      exit 1
+      ;;
+  esac
+fi
+
+# Check USER (ROOT) <line 220>
+Run_as_root
+
+# Check Connection <line 234>
+check_connection
+
+#CHECK_distro <line 55>
+CHECK_distro
+
+#Needed_Package <>
+Update
+Needed_Package
+
+# Clean the folder from any deb file <line 45>
+CLEAN_FOLDER
+
+# WELCOME screen <line >
+WELCOME
+
+# Menu option <line 2818>
+MAIN_MENU
