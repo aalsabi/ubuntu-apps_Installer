@@ -6,7 +6,7 @@ HOW TO :
 
 Git your copy :
 
-git clone https://github.com/zakariaGatter/Gatter_script
+[>_] >> "git clone https://github.com/zakariaGatter/Gatter_script"
 
 to start the script you have to give it Permission ( Allow executing file as a program ) bay typing in the terminal
 
