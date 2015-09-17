@@ -20,7 +20,6 @@ the script will Complements automatically the others Premossions
 
 All what you have to do it typing your choice
 
-To more information contact me on :
 If you like it or don't like it Pleasr send me a feedback on :
 
 Gmail : zakaria.gatter@gmail.com 
