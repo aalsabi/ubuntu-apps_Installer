@@ -26,7 +26,6 @@ Gmail : zakaria.gatter@gmail.com
 
 Email : gatter.zaki@outlook.com  
 
-made in morocco (Arabic country)
 
 by Zakaria (Gatter) BARKOUK
 
