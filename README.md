@@ -1,4 +1,4 @@
-# Gatter_script
+# Ubuntu Apps Installer
 
 Gatter Is a script shell allows you to installs the most important programs 
 
