@@ -6,11 +6,11 @@ HOW TO :
 
 Git your copy :
 
-[>_] >> "git clone https://github.com/zakariaGatter/Gatter_script"
+[>_] >> git clone https://github.com/zakariaGatter/ubuntu-apps_Installer.git
 
 to start the script you have to give it Permission ( Allow executing file as a program ) bay typing in the terminal
 
-[>_] >> "cd Gatter_script"
+[>_] >> "cd ubuntu-apps_Installer"
 
 [>_] >> " chmod +x 01 "
 
@@ -20,7 +20,7 @@ the script will Complements automatically the others Premossions
 
 All what you have to do it typing your choice
 
-If you like it or don't like it Pleasr send me a feedback on :
+If you like it or don't like it , Please send me a feedback on :
 
 Gmail : zakaria.gatter@gmail.com 
 
@@ -32,6 +32,6 @@ by Zakaria (Gatter) BARKOUK
 Note :
 	Please don't move nothing from he's place
 
-	If you make changes to this work I hope you can send a copy to my Email or Gmail
+If you make changes to this work I hope you can send a copy to my Email or Gmail
 
-	I hope this Script helps In a way or another and don't forget to share it
+I hope this Script helps In a way or another and don't forget to share it
