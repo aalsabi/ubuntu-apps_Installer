@@ -443,9 +443,9 @@ DESKTOP_install () {
         print_app " 1 )" "Cinnamon"
         print_app " 2 )" "Deepin"
         print_app " 3 )" "Enlightenment"
-	    print_app " 4 )" "GNOME"
-	    print_app " 5 )" "KDE4"
-	    print_app " 6 )" "KDE5"
+	print_app " 4 )" "GNOME"
+	print_app " 5 )" "KDE4"
+	print_app " 6 )" "KDE5"
     	print_app " 7 )" "LXQT"
     	print_app " 8 )" "Mate"
     	print_app " 9 )" "XFCE"
@@ -482,67 +482,67 @@ DESKTOP_install () {
 		    print_C_title "Install Deepin Desktop Environment"
 		    Install "dde-meta-core"
 		;;
-        3 ) Add_Rep "ppa:enlightenment-git/ppa"
+        	3 ) Add_Rep "ppa:enlightenment-git/ppa"
                 
-            Update
+            		Update
             
-            Install "e20" "terminology"
+            		Install "e20" "terminology"
             
-            ESSENTIAL_APPS_install
-        ;;
-        4 ) GNOME_install
-        ;;
-        5 ) Add_Rep "ppa:kubuntu-ppa/backports"
+            		ESSENTIAL_APPS_install
+        	;;
+        	4 ) GNOME_install
+        	;;
+        	5 ) Add_Rep "ppa:kubuntu-ppa/backports"
 	    	
-            Update
+            	Update
             
-            Install "kde-standard" "kubuntu-desktop"
+            	Install "kde-standard" "kubuntu-desktop"
             
-            KDE="1"
-        ;;
-        6 ) Add_Rep "ppa:neon/kf5"
+            	KDE="1"
+        	;;
+        	6 ) Add_Rep "ppa:neon/kf5"
             
-            Update
+            	Update
             
-            Install "project-neon5-session" "project-neon5-utils" "project-neon5-konsole"
+            	Install "project-neon5-session" "project-neon5-utils" "project-neon5-konsole"
             
-            KDE="1"
-        ;;
-        7 ) Add_Rep "ppa:lubuntu-dev/lubuntu-daily"
+           	KDE="1"
+        	;;
+        	7 ) Add_Rep "ppa:lubuntu-dev/lubuntu-daily"
             
-            Update
+            	Update
             
-            Install "lxqt-metapackage" "lxqt-panel"
-            
-            ESSENTIAL_APPS_install
-        ;;
-        8 ) Add_Rep "ppa:ubuntu-mate-dev/ppa"
+            	Install "lxqt-metapackage" "lxqt-panel"
+        	    
+            	ESSENTIAL_APPS_install
+        	;;
+        	8 ) Add_Rep "ppa:ubuntu-mate-dev/ppa"
 	        Add_Rep "ppa:ubuntu-mate-dev/trusty-mate"
 	    	    
 	        Update
 	    	    
 	        MATE_Install
-	    ;;
-	    9 ) 
+	    	;;
+	    	9 ) 
 	        Install "xfce4"
-	    ;;
-	    10 ) Install "openbox" "xorg" "obmenu" "gmrum"
+	    	;;
+		 10 ) Install "openbox" "xorg" "obmenu" "gmrum"
 	         sudo cp /etc/xdg/openbox/* ~/.config/openbox
 	         ESSENTIAL_APPS_install
-        ;;
-        11 ) Install "fluxbox" "xorg" "fluxconf"
-            ESSENTIAL_APPS_install
-        ;;
-        12 ) Install "i3" "xorg"
-            ESSENTIAL_APPS_install
-        ;;
-        13 ) Install "pekwm" "pekwm-themes"
-            ESSENTIAL_APPS_install
-        ;;
-        14 ) Add_Rep "ppa:klaus-vormweg/awesome"
-             Update
-             Install "awesome"
-    	     ESSENTIAL_APPS_install
+        	;;
+        	11 ) Install "fluxbox" "xorg" "fluxconf"
+            	ESSENTIAL_APPS_install
+        	;;
+        	12 ) Install "i3" "xorg"
+            	ESSENTIAL_APPS_install
+        	;;
+        	13 ) Install "pekwm" "pekwm-themes"
+            	ESSENTIAL_APPS_install
+        	;;
+        	14 ) Add_Rep "ppa:klaus-vormweg/awesome"
+             	Update
+             	Install "awesome"
+    	     	ESSENTIAL_APPS_install
 	    	;;
 	    	[Bb]* )
 	    	        MAIN_MENU
@@ -588,7 +588,7 @@ done
     ;;
     2 ) Install "gnome-shell"
     ;;
-    3 )
+    3 ) Install "gnome-shell-extras "
     ;;
     [Dd]* ) Desktop_installtion
              break
